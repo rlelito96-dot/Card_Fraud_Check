@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+*.pyc
+
+# Env / virtualenv
+.env
+venv/
+env/
+.venv/
+
+# Logs
+*.log
+logs/
+*.sqlite3
+
+# Pipenv / poetry
+Pipfile.lock
+poetry.lock
+
+# mypy / lint / coverage
+.mypy_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Docker
+*.dockerfile
+docker-compose.override.yml
+
+# Alembic / migrations
+migrations/versions/*.pyc
+migrations/versions/__pycache__/
+
+# PyCharm
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# VSCode (na wszelki wypadek)
+.vscode/
+
+# Misc
+*.bak
+*.tmp
+.DS_Store
