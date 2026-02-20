@@ -1,65 +1,80 @@
-# Title
+# 💳 Card Fraud Check Service
+
+## Project Description
+
+An **asynchronous service for detecting potential credit card fraud**.  
+This project demonstrates **clean architecture**, a **domain layer**, **Redis-based velocity rules**, and **unit and integration testing**.  
+
+**Features:**
+
+- Evaluate transactions using configurable fraud rules  
+- Risk assessment with decisions: `APPROVE`, `REVIEW`, `BLOCK`  
+- Example rules: `AmountRule`, `VelocityRule` (using Redis)  
+- Modular engine and service for easy rule expansion  
+- Unit tests (`rules`, `engine`) and integration tests (`FastAPI endpoint`)  
+- Asynchronous operations and Redis integration  
+- Docker + docker-compose for local development and testing  
+
+---
+
+## Technologies
+
+- Python 3.12+  
+- FastAPI  
+- Redis  
+- Pydantic / dataclasses  
+- Pytest / pytest-asyncio  
+- Docker / docker-compose  
+- GitHub Actions CI/CD  
+
+---
+
+## Installation / Setup
+
+### 1️⃣ Clone the repository
+
+```bash
+git clone <repo-url>
+cd Card_Fraud_Check_Project
 
 
-# Installation/ Setup
-### Install dependencies 
+## Create and activate virtual environment
+python -m venv .venv
+source .venv/bin/activate   # Linux / macOS
+.venv\Scripts\activate      # Windows PowerShell
+
+## Install dependencies
 pip install -r requirements.txt
 
-### Starting the server    
+## Environment Variables
+REDIS_URL=redis://redis:6379
+RISK_THRESHOLD_BLOCK=70
+RISK_THRESHOLD_REVIEW=40
 
+## Running the Server
+docker-compose up
+### or locally
+uvicorn app.main:app --reload
 
-# Project description
-This project is a simple login system and user management using FastAPI.
+### Default FastAPI URL: http://localhost:8000
+### Endpoint: POST /api/v1/fraud/check
 
-Offers:
-* User registration and login
-* Secured endpoints protected with JWT
-* Hashing passwords (Argon2)
-* Database (PostgreSQL/ SQLite) with async CRUD
-* Endpoints tests using TestClient
-
-# Technologies
-* Python 3.10+
-* FastAPI
-* SQLAlchemy (async)
-* JWT for authorization
-* Passlib for hashing passwords
-* Pytest for tests
-
-# Environment Variables
-Create a .env file in the project root with the following variables:
-### PostgreSQL
-DATABASE_URL=postgresql+asyncpg://user:password@db:5432/dbname
-
-### JWT settings
-JWT_SECRET=your_secret_key_here
-JWT_ALGORITHM=HS256
-JWT_EXPIRE_MINUTES=60
-JWT_ISSUER=myapp
-
-### Optional
-DEBUG=True
-
-# Tests
+## Tests
 pytest -v
 
-# Docker
-The project uses PostgreSQL in a Docker container:   
+## Docker
+docker-compose up -d
+docker-compose logs -f api
 
-### Launching the database and application
-docker-compose up   
+### Ports: 
+FastAPI: 8000
+Redis: 6379
 
-docker-compose up -d       
-(in the background)
+## CI/CD
+Prepared for GitHub Actions:
 
-### Checking FastAPI logs  
-docker-compose logs -f app
+Automatic tests on push/pull requests
 
-Default FastAPi port: http://localhost:8000  
-Default PostgreSQL port: 5432
+Optional linting: flake8, black, isort
 
-# CI/CD
-The project is prepared for automation in the CI/CD pipeline:
-* Automatic tests run on push/pull request
-* Optional linting with black / flake8
-* Automatic deployment after successful tests
+Docker build verification
