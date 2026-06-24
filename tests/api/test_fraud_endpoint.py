@@ -14,7 +14,7 @@ def test_fraud_check():
 
     }
 
-    response = client.post("/api/v1/fraud/check", json=payload)
+    response = client.post("/fraud/check", json=payload)
 
     assert response.status_code == 200
 
