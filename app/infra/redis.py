@@ -14,7 +14,7 @@ class RedisClient:
             logger.info("Connecting to Redis", extra={"url": self.url})
             self._client = redis.from_url(
                 self.url,
-                decode_response=True,
+                decode_responses=True,
             )
         return self._client
 
