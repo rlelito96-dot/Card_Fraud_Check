@@ -20,6 +20,12 @@ class FraudService:
 
         decision = self._make_decision(score)
 
+        result = {
+            "score": score,
+            "decision": decision,
+            "reasons": reasons,
+        }
+
         logger.info(
             "Fraud check result",
             extra={"tx_id": tx.id,
@@ -27,6 +33,8 @@ class FraudService:
                    "decision": decision,
                    }
         )
+
+        return result
 
     def _make_decision(self, score: int) -> TransactionStatus:
         if score >= settings.risk_threshold_block:
