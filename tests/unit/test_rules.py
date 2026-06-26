@@ -25,6 +25,7 @@ async def test_amount_rule_triggers():
     assert points == 50
     assert "exceeds limit" in reason
 
+
 @pytest.mark.asyncio
 async def test_amount_rule_not_triggered():
     rule = AmountRule(max_amount=1000)
@@ -40,6 +41,7 @@ async def test_amount_rule_not_triggered():
     result = await rule.apply(tx)
 
     assert result is None
+
 
 @pytest.mark.asyncio
 async def test_amount_rule_custom_points():
