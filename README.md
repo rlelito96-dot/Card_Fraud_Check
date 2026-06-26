@@ -1,19 +1,65 @@
 # 💳 Card Fraud Check Service
 
-## Project Description
+Asynchronous fraud detection service using FastAPI, Redis and rule-based engine.
 
-An **asynchronous service for detecting potential credit card fraud**.  
-This project demonstrates **clean architecture**, a **domain layer**, **Redis-based velocity rules**, and **unit and integration testing**.  
+---
 
-**Features:**
+## 🚀 Quick Start
 
-- Evaluate transactions using configurable fraud rules  
-- Risk assessment with decisions: `APPROVE`, `REVIEW`, `BLOCK`  
-- Example rules: `AmountRule`, `VelocityRule` (using Redis)  
-- Modular engine and service for easy rule expansion  
-- Unit tests (`rules`, `engine`) and integration tests (`FastAPI endpoint`)  
-- Asynchronous operations and Redis integration  
-- Docker + docker-compose for local development and testing  
+```bash
+cp .env.example .env
+docker compose up -d
+docker compose run api pytest
+```
+
+---
+
+## 📦 Full Setup
+
+### 1. Clone repository
+
+```bash
+git clone https://github.com/your-username/Card_Fraud_Check.git
+cd card_check
+```
+
+### 2. Create environment file
+
+```bash
+cp .env.example .env
+```
+
+### 3. Start database (Docker)
+
+```bash
+docker compose up -d
+```
+
+---
+
+## 🧠 Features
+- Fraud scoring engine (rule-based)
+- Transaction evaluation:
+  - AmountRule (high value detection)
+  - VelocityRule (Redis-based frequency detection)
+- Decisions:
+  - APPROVED
+  - REVIEW
+  - BLOCKED
+- Async architecture (FastAPI + async Redis)
+- Clean architecture (domain / service / infra separation)
+- Fully containerized environment
+
+---
+
+## 📦 Architecture
+
+Service is fully containerized:
+
+- API → FastAPI (Python 3.12)
+- Redis → used for velocity rules
+- Tests → executed inside API container
+- No local Python required
 
 ---
 
@@ -29,52 +75,31 @@ This project demonstrates **clean architecture**, a **domain layer**, **Redis-ba
 
 ---
 
-## Installation / Setup
-
-### 1️⃣ Clone the repository
+# 🧪 Tests
 
 ```bash
-git clone <repo-url>
-cd Card_Fraud_Check_Project
+docker compose run api pytest
+```
 
+---
 
-## Create and activate virtual environment
-python -m venv .venv
-source .venv/bin/activate   # Linux / macOS
-.venv\Scripts\activate      # Windows PowerShell
+# 📖 API Documentation
 
-## Install dependencies
-pip install -r requirements.txt
+- *API*: http://localhost:8000
+- *Swagger docs*: http://localhost:8000/docs
+- *Redoc*: http://localhost:8000/redoc
 
-## Environment Variables
-REDIS_URL=redis://redis:6379
-RISK_THRESHOLD_BLOCK=70
-RISK_THRESHOLD_REVIEW=40
+---
 
-## Running the Server
-docker-compose up
-### or locally
-uvicorn app.main:app --reload
+## 🔄 CI/CD Ready
 
-### Default FastAPI URL: http://localhost:8000
-### Endpoint: POST /api/v1/fraud/check
+Project is prepared for CI pipelines:
 
-## Tests
-pytest -v
+- tests run in isolated container
+- Redis provided via docker-compose
+- no local dependencies required
 
-## Docker
-docker-compose up -d
-docker-compose logs -f api
-
-### Ports: 
-FastAPI: 8000
-Redis: 6379
-
-## CI/CD
-Prepared for GitHub Actions:
-
-Automatic tests on push/pull requests
-
-Optional linting: flake8, black, isort
-
-Docker build verification
+## ❗ Important Notes
+- Do NOT run pytest locally
+- Do NOT install dependencies manually on host
+- Everything runs inside Docker containers
