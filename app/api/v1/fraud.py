@@ -3,11 +3,12 @@ from pydantic import BaseModel
 from datetime import datetime
 
 from app.domain.models import Transaction
-from app.domain.rules import AmountRule, VelocityRule
-from app.domain.engine import FraudEngine
-from app.infra.redis import RedisClient
-from app.infra.repository import FraudRepository
 from app.services.fraud_service import FraudService
+
+from fastapi import Depends
+from app.dependencies.fraud_factory import get_fraud_service
+
+from app.domain.models import TransactionStatus
 
 router = APIRouter(prefix="/fraud", tags=["fraud"])
 
@@ -19,19 +20,13 @@ class TransactionDTO(BaseModel):
     country: str
     timestamp: datetime
 
+class FraudResponse(BaseModel):
+    score: int
+    decision: TransactionStatus
+    reasons: list[str]
 
-redis_client = RedisClient()
-repository = FraudRepository(redis_client)
-rules = [
-    AmountRule(max_amount=1000),
-    VelocityRule(repository=repository, max_tx_per_minute=5),
-
-]
-engine = FraudEngine(rules)
-service = FraudService(engine)
-
-@router.post("/check")
-async def check_transaction(tx_dto: TransactionDTO):
+@router.post("/check", response_model=FraudResponse)
+async def check_transaction(tx_dto: TransactionDTO, service: FraudService = Depends(get_fraud_service)):
     tx = Transaction(
         id=tx_dto.id,
         user_id=tx_dto.user_id,

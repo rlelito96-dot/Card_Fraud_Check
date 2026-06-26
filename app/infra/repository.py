@@ -9,7 +9,7 @@ class FraudRepository:
 
     async def incr_user_tx(self, user_id: str, expire_seconds: int = 60) -> int:
         client = await self.redis_client.connect()
-        key = f"user: {user_id}:tx"
+        key = f"user:{user_id}:tx"
         count = await client.incr(key)
         await client.expire(key, expire_seconds)
 
@@ -18,6 +18,6 @@ class FraudRepository:
 
     async def get_user_tx_count(self, user_id: str) -> int:
         client = await self.redis_client.connect()
-        key = f"user: {user_id}:tx"
+        key = f"user:{user_id}:tx"
         count = await client.get(key)
         return int(count) if count else 0

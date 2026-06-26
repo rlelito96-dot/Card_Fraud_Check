@@ -26,9 +26,17 @@ class VelocityRule(FraudRule):
         self.points = points
 
     async def apply(self, tx: Transaction) -> Optional[Tuple[int, str]]:
-        count = await self.repository.incr_user_tx(tx.user_id, expire_seconds=60)
+        try:
+            count = await self.repository.incr_user_tx(tx.user_id, expire_seconds=60)
 
-        if count > self.max_tx:
-            return self.points, f"High transaction velocity: {count} transaction in last minute"
+            if count > self.max_tx:
+                return self.points, (
+                    f"High transaction velocity: {count} "
+                    f"transactions in last minute"
+                )
 
-        return None
+            return None
+
+        except Exception:
+            # fail-safe: rule nie może wywalić całego engine
+            return 0, "velocity rule failed (redis error)"
