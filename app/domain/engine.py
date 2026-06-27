@@ -1,9 +1,12 @@
-from typing import List, Tuple, Optional
+from typing import List, Optional, Tuple
+
 from app.domain.models import Transaction
 from app.domain.rules import FraudRule
 
+
 class FraudEngine:
     """Transaction evaluation engine"""
+
     def __init__(self, rules: List[FraudRule]):
         self.rules = rules
 

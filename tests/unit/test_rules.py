@@ -1,8 +1,9 @@
-import pytest
 from datetime import datetime
 
-from app.domain.rules import AmountRule
+import pytest
+
 from app.domain.models import Transaction
+from app.domain.rules import AmountRule
 
 
 @pytest.mark.asyncio
@@ -14,7 +15,7 @@ async def test_amount_rule_triggers():
         user_id="user1",
         amount=1500,
         country="PL",
-        timestamp=datetime.utcnow()
+        timestamp=datetime.utcnow(),
     )
 
     result = await rule.apply(tx)
@@ -25,6 +26,7 @@ async def test_amount_rule_triggers():
     assert points == 50
     assert "exceeds limit" in reason
 
+
 @pytest.mark.asyncio
 async def test_amount_rule_not_triggered():
     rule = AmountRule(max_amount=1000)
@@ -34,12 +36,13 @@ async def test_amount_rule_not_triggered():
         user_id="user1",
         amount=500,
         country="PL",
-        timestamp=datetime.utcnow()
+        timestamp=datetime.utcnow(),
     )
 
     result = await rule.apply(tx)
 
     assert result is None
+
 
 @pytest.mark.asyncio
 async def test_amount_rule_custom_points():
@@ -50,7 +53,7 @@ async def test_amount_rule_custom_points():
         user_id="user1",
         amount=2000,
         country="PL",
-        timestamp=datetime.utcnow()
+        timestamp=datetime.utcnow(),
     )
 
     result = await rule.apply(tx)

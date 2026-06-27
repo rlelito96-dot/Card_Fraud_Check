@@ -1,13 +1,14 @@
-from app.infra.redis import RedisClient
 from app.core.logging import get_logger
+from app.infra.redis import RedisClient
 
 logger = get_logger(__name__)
+
 
 class FraudRepository:
     def __init__(self, redis_client: RedisClient):
         self.redis_client = redis_client
 
-    async def incr_user_tx(self, user_id: str, expire_seconds: int = 60) -> int:
+    async def incr_user_tx(self, user_id: str, expire_seconds: int = 60):
         client = await self.redis_client.connect()
         key = f"user:{user_id}:tx"
         count = await client.incr(key)

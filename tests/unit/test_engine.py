@@ -1,23 +1,22 @@
-import pytest
 from datetime import datetime
+
+import pytest
 
 from app.domain.engine import FraudEngine
 from app.domain.models import Transaction
 from app.domain.rules import AmountRule
 
+
 @pytest.mark.asyncio
 async def test_engine_amount_rule_triggers():
-    engine = FraudEngine(
-        rules=[AmountRule(max_amount=1000)]
-    )
+    engine = FraudEngine(rules=[AmountRule(max_amount=1000)])
 
     tx = Transaction(
         id="tx1",
         user_id="user1",
         amount=1500,
-        country ="PL",
-        timestamp =datetime.utcnow()
-
+        country="PL",
+        timestamp=datetime.utcnow(),
     )
 
     score, reasons = await engine.evaluate(tx)

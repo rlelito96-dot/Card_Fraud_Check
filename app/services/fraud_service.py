@@ -1,10 +1,12 @@
-from typing import Dict, Any
-from app.domain.engine import FraudEngine
-from app.domain.models import Transaction, TransactionStatus
+from typing import Any, Dict
+
 from app.core.config import settings
 from app.core.logging import get_logger
+from app.domain.engine import FraudEngine
+from app.domain.models import Transaction, TransactionStatus
 
 logger = get_logger(__name__)
+
 
 class FraudService:
     def __init__(self, engine: FraudEngine):
@@ -13,7 +15,10 @@ class FraudService:
     async def check_transaction(self, tx: Transaction) -> Dict[str, Any]:
         logger.info(
             "Checking transaction",
-            extra={"tx_id": tx.id, "user_id": tx.user_id}
+            extra={
+                "tx_id": tx.id,
+                "user_id": tx.user_id,
+            },
         )
 
         score, reasons = await self.engine.evaluate(tx)
@@ -28,10 +33,11 @@ class FraudService:
 
         logger.info(
             "Fraud check result",
-            extra={"tx_id": tx.id,
-                   "score": score,
-                   "decision": decision,
-                   }
+            extra={
+                "tx_id": tx.id,
+                "score": score,
+                "decision": decision,
+            },
         )
 
         return result

@@ -1,8 +1,11 @@
-from fastapi.testclient import TestClient
 from datetime import datetime
+
+from fastapi.testclient import TestClient
+
 from app.main import app
 
 client = TestClient(app)
+
 
 def test_fraud_check():
     payload = {
@@ -10,8 +13,7 @@ def test_fraud_check():
         "user_id": "user1",
         "amount": 1500,
         "country": "PL",
-        "timestamp": datetime.utcnow().isoformat()
-
+        "timestamp": datetime.utcnow().isoformat(),
     }
 
     response = client.post("/api/v1/fraud/check", json=payload)
