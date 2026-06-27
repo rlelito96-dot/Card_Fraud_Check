@@ -21,14 +21,18 @@ class AmountRule(FraudRule):
         if tx.amount > self.max_amount:
             return (
                 self.points,
-                f"Transaction amount {tx.amount} exceeds limit {self.max_amount}",
+                f"Transaction amount {tx.amount} "
+                f"exceeds limit {self.max_amount}",
             )
         return None
 
 
 class VelocityRule(FraudRule):
     def __init__(
-        self, repository: FraudRepository, max_tx_per_minute: int = 5, points: int = 30
+            self,
+            repository: FraudRepository,
+            max_tx_per_minute: int = 5,
+            points: int = 30
     ):
         self.repository = repository
         self.max_tx = max_tx_per_minute
@@ -36,7 +40,10 @@ class VelocityRule(FraudRule):
 
     async def apply(self, tx: Transaction) -> Optional[Tuple[int, str]]:
         try:
-            count = await self.repository.incr_user_tx(tx.user_id, expire_seconds=60)
+            count = await self.repository.incr_user_tx(
+                tx.user_id,
+                expire_seconds=60,
+            )
 
             if count > self.max_tx:
                 return self.points, (

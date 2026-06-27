@@ -14,7 +14,11 @@ class FraudService:
 
     async def check_transaction(self, tx: Transaction) -> Dict[str, Any]:
         logger.info(
-            "Checking transaction", extra={"tx_id": tx.id, "user_id": tx.user_id}
+            "Checking transaction",
+            extra={
+                "tx_id": tx.id,
+                "user_id": tx.user_id,
+            }
         )
 
         score, reasons = await self.engine.evaluate(tx)

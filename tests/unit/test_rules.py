@@ -32,7 +32,11 @@ async def test_amount_rule_not_triggered():
     rule = AmountRule(max_amount=1000)
 
     tx = Transaction(
-        id="tx2", user_id="user1", amount=500, country="PL", timestamp=datetime.utcnow()
+        id="tx2",
+        user_id="user1",
+        amount=500,
+        country="PL",
+        timestamp=datetime.utcnow(),
     )
 
     result = await rule.apply(tx)
