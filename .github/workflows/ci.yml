@@ -15,6 +15,16 @@ jobs:
       REDIS_URL: redis://redis:6379
       RISK_THRESHOLD_BLOCK: 80
       RISK_THRESHOLD_REVIEW: 50
+    services:
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       - name: Checkout repository
@@ -30,9 +40,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pytest pytest-asyncio
+          pip install flake8 black isort
 
       - name: Cache pip
         uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
