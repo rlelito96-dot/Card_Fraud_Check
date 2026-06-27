@@ -1,13 +1,16 @@
 from abc import ABC, abstractmethod
 from typing import Optional, Tuple
+
 from app.domain.models import Transaction
 from app.infra.repository import FraudRepository
+
 
 class FraudRule(ABC):
     @abstractmethod
     async def apply(self, tx: Transaction) -> Optional[Tuple[int, str]]:
         """Transaction evaluation"""
         pass
+
 
 class AmountRule(FraudRule):
     def __init__(self, max_amount: float, points: int = 50):
@@ -16,11 +19,17 @@ class AmountRule(FraudRule):
 
     async def apply(self, tx: Transaction) -> Optional[Tuple[int, str]]:
         if tx.amount > self.max_amount:
-            return self.points, f"Transaction amount {tx.amount} exceeds limit {self.max_amount}"
+            return (
+                self.points,
+                f"Transaction amount {tx.amount} exceeds limit {self.max_amount}",
+            )
         return None
 
+
 class VelocityRule(FraudRule):
-    def __init__(self, repository: FraudRepository, max_tx_per_minute: int = 5, points: int = 30):
+    def __init__(
+        self, repository: FraudRepository, max_tx_per_minute: int = 5, points: int = 30
+    ):
         self.repository = repository
         self.max_tx = max_tx_per_minute
         self.points = points

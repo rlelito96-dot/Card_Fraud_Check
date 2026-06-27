@@ -1,8 +1,10 @@
 import redis.asyncio as redis
+
 from app.core.config import settings
 from app.core.logging import get_logger
 
 logger = get_logger(__name__)
+
 
 class RedisClient:
     def __init__(self, url: str | None = None):

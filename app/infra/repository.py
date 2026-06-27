@@ -1,7 +1,8 @@
-from app.infra.redis import RedisClient
 from app.core.logging import get_logger
+from app.infra.redis import RedisClient
 
 logger = get_logger(__name__)
+
 
 class FraudRepository:
     def __init__(self, redis_client: RedisClient):

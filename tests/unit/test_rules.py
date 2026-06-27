@@ -1,8 +1,9 @@
-import pytest
 from datetime import datetime
 
-from app.domain.rules import AmountRule
+import pytest
+
 from app.domain.models import Transaction
+from app.domain.rules import AmountRule
 
 
 @pytest.mark.asyncio
@@ -14,7 +15,7 @@ async def test_amount_rule_triggers():
         user_id="user1",
         amount=1500,
         country="PL",
-        timestamp=datetime.utcnow()
+        timestamp=datetime.utcnow(),
     )
 
     result = await rule.apply(tx)
@@ -31,11 +32,7 @@ async def test_amount_rule_not_triggered():
     rule = AmountRule(max_amount=1000)
 
     tx = Transaction(
-        id="tx2",
-        user_id="user1",
-        amount=500,
-        country="PL",
-        timestamp=datetime.utcnow()
+        id="tx2", user_id="user1", amount=500, country="PL", timestamp=datetime.utcnow()
     )
 
     result = await rule.apply(tx)
@@ -52,7 +49,7 @@ async def test_amount_rule_custom_points():
         user_id="user1",
         amount=2000,
         country="PL",
-        timestamp=datetime.utcnow()
+        timestamp=datetime.utcnow(),
     )
 
     result = await rule.apply(tx)

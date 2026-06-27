@@ -1,7 +1,7 @@
+from app.domain.engine import FraudEngine
+from app.domain.rules import AmountRule, VelocityRule
 from app.infra.redis import RedisClient
 from app.infra.repository import FraudRepository
-from app.domain.rules import AmountRule, VelocityRule
-from app.domain.engine import FraudEngine
 from app.services.fraud_service import FraudService
 
 
