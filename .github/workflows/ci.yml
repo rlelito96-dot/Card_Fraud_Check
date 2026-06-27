@@ -10,12 +10,18 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    env:
+      APP_NAME: test-app
+      REDIS_URL: redis://redis:6379
+      RISK_THRESHOLD_BLOCK: 80
+      RISK_THRESHOLD_REVIEW: 50
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Setup Python
-        uses: actions/setup-python@checkoutv5
+        uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
@@ -26,7 +32,7 @@ jobs:
           pip install pytest pytest-asyncio
 
       - name: Cache pip
-        uses: actions/cahce@v3
+        uses: actions/cache@v3
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
