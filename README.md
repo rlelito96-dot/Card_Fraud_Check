@@ -19,7 +19,7 @@ docker compose run api pytest
 ### 1. Clone repository
 
 ```bash
-git clone https://github.com/your-username/Card_Fraud_Check.git
+git clone https://github.com/rlelito96-dot/card_check.git
 cd card_check
 ```
 
