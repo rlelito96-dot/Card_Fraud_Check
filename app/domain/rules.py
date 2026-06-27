@@ -22,17 +22,18 @@ class AmountRule(FraudRule):
             return (
                 self.points,
                 f"Transaction amount {tx.amount} "
-                f"exceeds limit {self.max_amount}",
+                f"exceeds limit"
+                f" {self.max_amount}",
             )
         return None
 
 
 class VelocityRule(FraudRule):
     def __init__(
-            self,
-            repository: FraudRepository,
-            max_tx_per_minute: int = 5,
-            points: int = 30
+        self,
+        repository: FraudRepository,
+        max_tx_per_minute: int = 5,
+        points: int = 30,
     ):
         self.repository = repository
         self.max_tx = max_tx_per_minute

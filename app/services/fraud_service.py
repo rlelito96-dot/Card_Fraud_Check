@@ -18,7 +18,7 @@ class FraudService:
             extra={
                 "tx_id": tx.id,
                 "user_id": tx.user_id,
-            }
+            },
         )
 
         score, reasons = await self.engine.evaluate(tx)
